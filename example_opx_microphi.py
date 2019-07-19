@@ -19,5 +19,11 @@ ss = AsymmetricMicrophiSolution(mbrs, sites, site_species,
                                 endmember_site_occupancies,
                                 alphas)
 
+print('deltaE(ofm):', (ss.endmember_energies[4]
+                       - 0.5*(ss.endmember_energies[0]
+                              + ss.endmember_energies[1])))
 
-print(ss)
+
+print('W(oen, ofs):', ss.endmember_interactions[0,1])
+print('W(oen, ofm):', ss.endmember_interactions[0,4])
+print('W(ofs, ofm):', ss.endmember_interactions[1,4])

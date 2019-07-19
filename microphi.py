@@ -66,8 +66,8 @@ class AsymmetricMicrophiSolution(object):
 
     Attributes
     ----------
-    endmember_gibbs: vector
-        Endmember gibbs free energies contributed by the site interactions
+    endmember_energies: vector
+        Endmember free energies contributed by the site interactions
     endmember_interactions: matrix
         Upper triangular matrix of the interactions between endmembers
     alpha_prime: vector
@@ -191,11 +191,11 @@ class AsymmetricMicrophiSolution(object):
 
         Q = B.T*self.site_species_interactions*B
 
-        self.endmember_gibbs = Matrix(np.ones(self.n_mbrs))
+        self.endmember_energies = Matrix(np.ones(self.n_mbrs))
 
         self.endmember_interactions = Q[:, :]
         for i in range(self.n_mbrs):
-            self.endmember_gibbs[i] = Q[i, i]*self.alpha_prime[i]
+            self.endmember_energies[i] = Q[i, i]*self.alpha_prime[i]
             for j in range(i, self.n_mbrs):
                 self.endmember_interactions[i, j] = ((Q[i, j] + Q[j, i]
                                                       - Q[i, i] - Q[j, j])
@@ -210,12 +210,12 @@ class AsymmetricMicrophiSolution(object):
 
         self.alpha_prime /= normalise
         self.endmember_interactions *= normalise
-        self.endmember_gibbs *= normalise
+        self.endmember_energies *= normalise
 
         self.alpha_prime = vector_to_array(self.alpha_prime)
         self.endmember_interactions = matrix_to_array(self.endmember_interactions)
         self.site_species_proportions = vector_to_array(self.site_species_proportions)
-        self.endmember_gibbs = vector_to_array(self.endmember_gibbs)
+        self.endmember_energies = vector_to_array(self.endmember_energies)
 
     def set_alphas(self, alphas):
         """
@@ -248,7 +248,7 @@ class AsymmetricMicrophiSolution(object):
         Print the site occupancies and the
         macroscopic properties of the solution.
         """
-        vG = Matrix([['G({0})'.format(self.mbrs[i])
+        vE = Matrix([['G({0})'.format(self.mbrs[i])
                       for i in range(self.n_mbrs)]]).T
 
         Wb = Matrix([['W({0},{1})'.format(self.mbrs[i], self.mbrs[j])
@@ -274,9 +274,9 @@ class AsymmetricMicrophiSolution(object):
                     str += '{0} = {1}\n'.format(Wb[i, j],
                                                 self.endmember_interactions[i,
                                                                             j])
-        str += '\nEndmember Gibbs free energies:\n'
-        for i in range(len(vG)):
-            str += '{0} = {1}\n'.format(vG[i], self.endmember_gibbs[i])
+        str += '\nEndmember free energies:\n'
+        for i in range(len(vE)):
+            str += '{0} = {1}\n'.format(vE[i], self.endmember_energies[i])
 
         for note in self.notes:
             str += note + '\n'
@@ -296,7 +296,7 @@ class AsymmetricMicrophiSolution(object):
 
     def check_formalism(self):
         """
-        This function calculates the Gibbs free energy at a
+        This function calculates the free energy at a
         given composition using the microscopic (site) and
         macroscopic (endmember), and makes sure that they
         produce the same answer.
@@ -304,7 +304,7 @@ class AsymmetricMicrophiSolution(object):
         Ea = self.excess_energy
 
         app = self.alpha_prime * self.endmember_proportions
-        pG = self.endmember_proportions.dot(self.endmember_gibbs)
+        pG = self.endmember_proportions.dot(self.endmember_energies)
         Eb = (pG + (app.dot(2. * self.endmember_interactions
                             / (np.einsum('i, j -> ij', self.alpha_prime,
                                          np.ones(self.n_mbrs))

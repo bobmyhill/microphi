@@ -1,5 +1,25 @@
 import numpy as np
-from microphi import microphi_from_file
+from microphi import AsymmetricMicrophiSolution
+
+# Endmember names
+mbrs = ['afchl', 'ames', 'daph', 'clin', 'ochl1', 'ochl4']
+
+# Site species information
+sites = ['M1', 'M1', 'M1', 'M23', 'M23', 'M4', 'M4', 'M4', 'T2', 'T2']
+site_species = ['Mg', 'Fe', 'Al', 'Mg', 'Fe', 'Mg', 'Fe', 'Al', 'Si', 'Al']
+alphas = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+
+endmember_site_occupancies = np.array([[1, 0, 0, 1, 0, 1, 0, 0, 1, 0],
+                                       [0, 0, 1, 1, 0, 0, 0, 1, 0, 1],
+                                       [0, 1, 0, 0, 1, 0, 0, 1, 0.5, 0.5],
+                                       [1, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5],
+                                       [1, 0, 0, 0, 1, 0, 1, 0, 1, 0],
+                                       [0, 1, 0, 1, 0, 1, 0, 0, 1, 0]])
+
+ss = AsymmetricMicrophiSolution(mbrs, sites, site_species,
+                                endmember_site_occupancies,
+                                alphas)
+print(ss)
 
 w = 4.
 wo = 10.
@@ -29,8 +49,6 @@ site_interactions = [[x,   w,   wo,  _,   _,   _,   _,   _,   _,   _],  # Mg M1
                      [_,   _,   _,   _,   _,   _,   _,   _,   _,   x]]  # Al
 
 
-ss = microphi_from_file('input_files/chl_FMASH.dat')
-print(ss)
 p_mbr = np.array([0.1, 0.2, 0.1, 0.2, 0.1, 0.3])
 ss.set_composition(p_mbr)
 print(ss)
