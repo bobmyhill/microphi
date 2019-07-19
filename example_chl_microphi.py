@@ -24,9 +24,18 @@ print(ss)
 w = 4.
 wo = 10.
 p = 0.7
-wc = 14.  # AlAlMgSi, M1T2 # 2*wc+wt = 28., wt=0
-wt = 0.  # AlSi, T2  #
-wr = -28  # AlAlMgMg, M1M4 # -(2*wc+wt), wt=0
+wc = 14.  # wcrt in paper = w(AlAlMgSi,M1T2) = w(AlAlMgSi,M4T2)
+wt = 0.   # wt in paper = w(AlSi,T2)
+wr = -28  # wcro in paper = w(AlAlMgMg,M1M4)
+
+# Checks:
+assert 2.*wo + wr + 2.*wc + wt == 20.
+assert wo + 1./2.*wc + 1./4.*wt == 17.
+
+# There are typos in the table on p.256 of Powell et al. (2014).
+# For example, the sum for W(ames,ochl4) in the first column on that page
+# can easily be shown to be equal to 17 kJ,
+# rather than 13 kJ/mol as given in the table.
 
 # Diagonals should be zero
 x = 0
@@ -45,13 +54,24 @@ site_interactions = [[x,   w,   wo,  _,   _,   _,   _,   _,   _,   _],  # Mg M1
                      [_,   _,   _,   _,   _,   x,   w,  wo,   _,   _],  # Mg M4
                      [_,   _,   _,   _,   _,   _,   x, p*wo,  _,   0],  # Fe
                      [_,   _,   _,   _,   _,   _,   _,   x,   _, -wc],  # Al
-                     [_,   _,   _,   _,   _,   _,   _,   _,   x,  wt],  # Si T2
+                     [_,   _,   _,   _,   _,   _,   _,   _,   x,  2.*wt],  # Si T2
                      [_,   _,   _,   _,   _,   _,   _,   _,   _,   x]]  # Al
 
 
-p_mbr = np.array([0.1, 0.2, 0.1, 0.2, 0.1, 0.3])
-ss.set_composition(p_mbr)
-print(ss)
+print('Setting site interactions...')
 ss.set_site_species_interactions(site_interactions)
 print(ss)
+
+print('Setting compositions...')
+p_mbr = np.array([0.1, 0.2, 0.1, 0.2, 0.1, 0.3])
+ss.set_composition(p_mbr)
+print('\nEndmember proportions:')
+print(mbrs)
+print(p_mbr)
+print('\nSite species proportions:')
+print(sites)
+print(site_species)
+print(ss.site_species_proportions)
+print()
+
 print('Check formalism: {0}'.format(ss.check_formalism()))

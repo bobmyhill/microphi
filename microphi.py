@@ -159,7 +159,7 @@ class AsymmetricMicrophiSolution(object):
             self.endmember_proportions = np.array([symplify(f) for f in
                                                    endmember_proportions])
         else:
-            self.endmember_proportions = ['x({0})'.format(mbr)
+            self.endmember_proportions = ['p({0})'.format(mbr)
                                           for mbr in self.mbrs]
 
         self._compute_properties()
@@ -249,7 +249,7 @@ class AsymmetricMicrophiSolution(object):
         Print the site occupancies and the
         macroscopic properties of the solution.
         """
-        vE = Matrix([['G({0})'.format(self.mbrs[i])
+        vE = Matrix([['U({0})'.format(self.mbrs[i])
                       for i in range(self.n_mbrs)]]).T
 
         Wb = Matrix([['W({0},{1})'.format(self.mbrs[i], self.mbrs[j])
@@ -285,12 +285,17 @@ class AsymmetricMicrophiSolution(object):
         return str
 
     def _interaction_energy(self, alphas, proportions, n, interactions, f):
-        ap = alphas * proportions
+        Ma = Matrix(alphas)
+        if type(proportions) is not Matrix:
+            Mp = Matrix([proportions]).T
+        else:
+            Mp = proportions
+        ap = emult(Ma, Mp)
         a = 2. / (np.einsum('i, j -> ij', alphas, np.ones(n))
                   + np.einsum('i, j -> ij', np.ones(n), alphas))
         Wmod = emult(Matrix(interactions), simplify_matrix(a)) * f
-        E_xs = (ap.dot(Wmod).dot(ap) / (proportions.dot(alphas)))
-        return E_xs
+        E_xs = ((ap.T * Wmod * ap) / (Mp.T * Ma))
+        return np.array(E_xs)[0][0]
 
     @property
     def excess_energy(self):
@@ -315,7 +320,7 @@ class AsymmetricMicrophiSolution(object):
         """
         E_xs1 = self.excess_energy
 
-        pG = self.endmember_proportions.dot(self.endmember_energies)
+        pG = sum(self.endmember_proportions * self.endmember_energies)
         E_xs2 = self._interaction_energy(self.endmember_alphas,
                                          self.endmember_proportions,
                                          self.n_mbrs,

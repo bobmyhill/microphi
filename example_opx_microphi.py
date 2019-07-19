@@ -15,7 +15,14 @@ endmember_site_occupancies = np.array([[1, 0, 0, 1, 0, 0, 1, 0],
                                        [0, 0, 1, 1, 0, 0, 1, 0],
                                        [0, 1, 0, 1, 0, 0, 1, 0]])
 
-site_species_interactions = np.zeros((8, 8))
+
+ss = AsymmetricMicrophiSolution(mbrs, sites, site_species,
+                                endmember_site_occupancies,
+                                alphas)
+
+print(ss)
+
+site_species_interactions = np.zeros((8, 8)).astype(int)
 site_species_interactions[0][1] = 4
 site_species_interactions[3][4] = 4
 site_species_interactions[1][4] = 1
