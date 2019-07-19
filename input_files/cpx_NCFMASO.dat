@@ -1,0 +1,14 @@
+% Endmember names
+di hed cen cfs cats jd aeg
+%
+% Endmember site-element occupancy array
+M1   M1   M1   M1   M2   M2   M2   M2   T1   T1    % Site names
+1    1    1.6  1.6  1    1    1    1    1    5.2   % Alphas
+Mg   Fe   Na   Ca   Mg   Fe   Al   Fef  Si   Al    % Element names
+0    0    0    1    1    0    0    0    1    0
+0    0    0    1    0    1    0    0    1    0
+1    0    0    0    1    0    0    0    1    0
+0    1    0    0    0    1    0    0    1    0
+0    0    0    1    0    0    1    0    0.5  0.5
+0    0    1    0    0    0    1    0    1    0
+0    0    1    0    0    0    0    1    1    0

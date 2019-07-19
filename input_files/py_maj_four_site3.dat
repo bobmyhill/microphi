@@ -1,0 +1,15 @@
+% Endmember names
+MMSS MmmS dmaj MAAS MAmS amamAS mAAA py
+%
+% Endmember site-element occupancy array
+M1   M1   M1   M2   M2   M2   M3   M3   M3   M4   M4   M4   % Site names
+1    1    1    1    1    1    1    1    1    1    1    1    % Alphas
+Al   Mg   Si   Al   Mg   Si   Al   Mg   Si   Al   Mg   Si   % Element names
+0    1    0    0    1    0    0    0    1    0    0    1    % MMSS
+0    1    0    0    1/2  1/2  0    1/2  1/2  0    0    1    % MmmS
+0    1/2  1/2  0    1/2  1/2  0    1/2  1/2  0    1/2  0.5  % mmmm
+0    1    0    1    0    0    1    0    0    0    0    1    % MAAS
+0    1    0    1    0    0    0    1/2  1/2  0    0    1    % MAmS
+1/2  1/2  0    1/2  1/2  0    1    0    0    0    0    1    % amamAS
+0    1/2  1/2  1    0    0    1    0    0    1    0    0    % mAAA
+1    0    0    1    0    0    1    0    0    1    0    0    % py

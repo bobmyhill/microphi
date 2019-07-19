@@ -1,0 +1,16 @@
+% Endmember names
+ASMA mAAA MAmS py AMAS AAMS AASM ASmM
+%
+% Endmember site-element occupancy array
+M1a  M1a  M1a  M1b  M1b  M1b  M2a  M2a  M2a  M2b  M2b  M2b  % Site names
+1    1    1    1    1    1    1    1    1    1    1    1   % Alphas
+Al   Mg   Si   Al   Mg   Si   Al   Mg   Si   Al   Mg   Si  % Element names
+1    0    0    0    0    1    0    1    0    1    0    0
+0    1/2 1/2   1    0    0    1    0    0    1    0    0
+0    1    0    1    0    0    0    1/2  1/2  0    0    1
+1    0    0    1    0    0    1    0    0    1    0    0
+1    0    0    0    1    0    1    0    0    0    0    1
+1    0    0    1    0    0    0    1    0    0    0    1
+1    0    0    1    0    0    0    0    1    0    1    0
+1    0    0    0    0    1    0    1/2  1/2  0    1    0
+%

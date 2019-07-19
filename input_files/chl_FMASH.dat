@@ -1,0 +1,14 @@
+% Endmember names
+afchl ames daph clin ochl1 ochl4
+%
+% Endmember site-element occupancy array
+M1   M1   M1   M23  M23  M4   M4   M4   T2   T2  % Site names
+1    1    1    1    1    1    1    1    1    1   % Alphas
+Mg   Fe   Al   Mg   Fe   Mg   Fe   Al   Si   Al  % Element names
+1    0    0    1    0    1    0    0    1    0
+0    0    1    1    0    0    0    1    0    1
+0    1    0    0    1    0    0    1    0.5  0.5
+1    0    0    1    0    0    0    1    0.5  0.5
+1    0    0    0    1    0    1    0    1    0
+0    1    0    1    0    1    0    0    1    0
+%

@@ -1,0 +1,15 @@
+% Endmember names
+enstatite ferrosilite ordered_pyroxene
+%
+% Endmember site-element occupancy array
+M1   M1   M2   M2  % Site names
+1    1    1    1   % Alphas
+Mg   Fe   Mg   Fe  % Element names
+1    0    1    0
+0    1    0    1
+1    0    0    1
+%
+Notes: This model works not only for simple 2 site-order disorder,
+but also for coupled four-site exchange, such as the jadeite-diopside
+binary (with omphacite as an ordered endmember): [Na,Ca][Mg,Al]Si2O6.
+See, for example, Holland and Powell (1996).

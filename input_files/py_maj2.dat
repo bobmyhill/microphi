@@ -1,0 +1,12 @@
+% Endmember names
+MSmaj  dmaj  majpy  py
+%
+% Endmember site-element occupancy array
+M1   M1   M1   M2   M2   M2  % Site names
+1    1    1    1    1    1   % Alphas
+Al   Mg   Si   Al   Mg   Si  % Element names
+0    1    0    0    0    1
+0    1/2  1/2  0    1/2  1/2
+1    0    0    0    1/2  1/2
+1    0    0    1    0    0
+%
