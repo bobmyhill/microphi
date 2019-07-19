@@ -1,7 +1,8 @@
 import numpy as np
 from sympy import Matrix, Rational, diag
+from sympy.matrices.dense import matrix_multiply_elementwise as emult
 from collections import OrderedDict
-
+from fractions import Fraction
 def symplify(f):
     return Rational(f).limit_denominator(1e9)
 
@@ -110,9 +111,9 @@ class AsymmetricMicrophiSolution(object):
 
         if alphas is not None:
             assert len(alphas) == self.n_site_species
-            self.alphas = alphas
+            self.site_species_alphas = alphas
         else:
-            self.alphas = ['a({0},{1})'.format(self.sites[i],
+            self.site_species_alphas = ['a({0},{1})'.format(self.sites[i],
                                                self.site_species[i])
                            for i in range(self.n_site_species)]
 
@@ -172,11 +173,10 @@ class AsymmetricMicrophiSolution(object):
                                          * M_pmbr)
 
         A = self.endmember_site_occupancies.T
+        M_alpha = Matrix([self.site_species_alphas]).T
 
-        M_alpha = Matrix([self.alphas]).T
-
-        self.alpha_prime = A.T*M_alpha
-        invalphap = Matrix([1./a for a in self.alpha_prime[:]])
+        self.endmember_alphas = simplify_matrix(np.array(A.T*M_alpha))
+        invalphap = Matrix([1./a for a in self.endmember_alphas[:]])
 
         B = diag(*M_alpha)*A*diag(*invalphap)
         try:
@@ -184,35 +184,36 @@ class AsymmetricMicrophiSolution(object):
         except TypeError:
             pass
 
-        for i in range(self.n_site_species):
-            for j in range(i, self.n_site_species):
-                self.site_species_interactions[i, j] *= 2/(M_alpha[i]
-                                                           + M_alpha[j])
+        f = 2. / (np.einsum('i, j -> ij', self.site_species_alphas,
+                            np.ones(self.n_site_species))
+                  + np.einsum('i, j -> ij', np.ones(self.n_site_species),
+                              self.site_species_alphas))
 
-        Q = B.T*self.site_species_interactions*B
+        Wmod = emult(self.site_species_interactions, simplify_matrix(f))
+        Q = B.T*Wmod*B
 
         self.endmember_energies = Matrix(np.ones(self.n_mbrs))
 
         self.endmember_interactions = Q[:, :]
         for i in range(self.n_mbrs):
-            self.endmember_energies[i] = Q[i, i]*self.alpha_prime[i]
+            self.endmember_energies[i] = Q[i, i]*self.endmember_alphas[i]
             for j in range(i, self.n_mbrs):
                 self.endmember_interactions[i, j] = ((Q[i, j] + Q[j, i]
                                                       - Q[i, i] - Q[j, j])
-                                                     * (self.alpha_prime[i]
-                                                        + self.alpha_prime[j])
+                                                     * (self.endmember_alphas[i]
+                                                        + self.endmember_alphas[j])
                                                      / 2)
                 self.endmember_interactions[j, i] = 0
 
         # Convert sympy objects to floats if possible
         # also normalise solution to self.n_sites
-        normalise = self.n_sites
+        normalise = symplify(self.n_sites)
 
-        self.alpha_prime /= normalise
+        self.endmember_alphas /= normalise
         self.endmember_interactions *= normalise
         self.endmember_energies *= normalise
 
-        self.alpha_prime = vector_to_array(self.alpha_prime)
+        self.endmember_alphas = vector_to_array(self.endmember_alphas)
         self.endmember_interactions = matrix_to_array(self.endmember_interactions)
         self.site_species_proportions = vector_to_array(self.site_species_proportions)
         self.endmember_energies = vector_to_array(self.endmember_energies)
@@ -222,7 +223,7 @@ class AsymmetricMicrophiSolution(object):
         Sets the values of the site-species asymmetric parameters
         """
         assert len(alphas) == self.n_site_species
-        self.alphas = alphas
+        self.site_species_alphas = alphas
         self._compute_properties()
 
     def set_composition(self, endmember_proportions):
@@ -264,7 +265,7 @@ class AsymmetricMicrophiSolution(object):
 
         for i in range(self.n_mbrs):
             str += 'a({0}) = {1}\n'.format(self.mbrs[i],
-                                           self.alpha_prime[i])
+                                           self.endmember_alphas[i])
 
         str += '\nEndmember interactions:\n'
         for i in range(self.n_mbrs):
@@ -283,35 +284,45 @@ class AsymmetricMicrophiSolution(object):
 
         return str
 
+    def _interaction_energy(self, alphas, proportions, n, interactions, f):
+        ap = alphas * proportions
+        a = 2. / (np.einsum('i, j -> ij', alphas, np.ones(n))
+                  + np.einsum('i, j -> ij', np.ones(n), alphas))
+        Wmod = emult(Matrix(interactions), simplify_matrix(a)) * f
+        E_xs = (ap.dot(Wmod).dot(ap) / (proportions.dot(alphas)))
+        return E_xs
+
     @property
     def excess_energy(self):
         """
         Calculates the excess energy at a given composition
         """
-        ap = self.alphas * self.site_species_proportions
-        Wmod = self.site_species_interactions*self.n_sites
-        E_xs = (ap.dot(Wmod).dot(ap)
-                / (self.site_species_proportions.dot(self.alphas)))
+        E_xs = self._interaction_energy(self.site_species_alphas,
+                                        self.site_species_proportions,
+                                        self.n_site_species,
+                                        self.site_species_interactions,
+                                        self.n_sites)
         return E_xs
 
     def check_formalism(self):
         """
         This function calculates the free energy at a
         given composition using the microscopic (site) and
-        macroscopic (endmember), and makes sure that they
+        macroscopic (endmember) formalisms, and makes sure that they
         produce the same answer.
-        """
-        Ea = self.excess_energy
 
-        app = self.alpha_prime * self.endmember_proportions
+        This function can only be used when the input is fully numeric
+        """
+        E_xs1 = self.excess_energy
+
         pG = self.endmember_proportions.dot(self.endmember_energies)
-        Eb = (pG + (app.dot(2. * self.endmember_interactions
-                            / (np.einsum('i, j -> ij', self.alpha_prime,
-                                         np.ones(self.n_mbrs))
-                               + np.einsum('i, j -> ij', np.ones(self.n_mbrs),
-                                           self.alpha_prime))).dot(app))
-              / self.alpha_prime.dot(self.endmember_proportions))
-        assert np.abs(Ea-Eb) < 1.e-6
+        E_xs2 = self._interaction_energy(self.endmember_alphas,
+                                         self.endmember_proportions,
+                                         self.n_mbrs,
+                                         self.endmember_interactions,
+                                         1.)
+
+        assert np.abs(pG + E_xs2 - E_xs1) < 1.e-6
         return True
 
 

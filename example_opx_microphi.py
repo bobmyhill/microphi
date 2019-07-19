@@ -15,9 +15,15 @@ endmember_site_occupancies = np.array([[1, 0, 0, 1, 0, 0, 1, 0],
                                        [0, 0, 1, 1, 0, 0, 1, 0],
                                        [0, 1, 0, 1, 0, 0, 1, 0]])
 
+site_species_interactions = np.zeros((8, 8))
+site_species_interactions[0][1] = 4
+site_species_interactions[3][4] = 4
+site_species_interactions[1][4] = 1
+
 ss = AsymmetricMicrophiSolution(mbrs, sites, site_species,
                                 endmember_site_occupancies,
-                                alphas)
+                                alphas,
+                                site_species_interactions=site_species_interactions)
 
 print('deltaE(ofm):', (ss.endmember_energies[4]
                        - 0.5*(ss.endmember_energies[0]
