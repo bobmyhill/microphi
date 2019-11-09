@@ -118,9 +118,7 @@ class AsymmetricMicrophiSolution(object):
                            for i in range(self.n_site_species)]
 
         if site_species_interactions is not None:
-            assert len(site_species_interactions) == self.n_site_species
-            assert len(site_species_interactions[0]) == self.n_site_species
-            self.site_species_interactions = Matrix(site_species_interactions)
+            self._assign_interactions(site_species_interactions)
         else:
             Wa = []
             for i in range(self.n_site_species):
@@ -235,13 +233,16 @@ class AsymmetricMicrophiSolution(object):
                                                endmember_proportions])
         self._compute_properties()
 
+    def _assign_interactions(self, site_species_interactions):
+        assert len(site_species_interactions) == self.n_site_species
+        assert len(site_species_interactions[0]) == self.n_site_species
+        self.site_species_interactions = Matrix(site_species_interactions)
+
     def set_site_species_interactions(self, site_species_interactions):
         """
         Sets the site interactions
         """
-        assert len(site_species_interactions) == self.n_site_species
-        assert len(site_species_interactions[0]) == self.n_site_species
-        self.site_species_interactions = Matrix(site_species_interactions)
+        self._assign_interactions(site_species_interactions)
         self._compute_properties()
 
     def __str__(self):
