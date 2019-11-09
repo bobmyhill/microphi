@@ -1,0 +1,67 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	0	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+mbrs	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_chl.py	/^mbrs = ['afchl', 'ames', 'daph', 'clin', 'ochl1', 'ochl4']$/;"	variable	line:5
+sites	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_chl.py	/^sites = ['M1', 'M1', 'M1', 'M23', 'M23', 'M4', 'M4', 'M4', 'T2', 'T2']$/;"	variable	line:8
+site_species	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_chl.py	/^site_species = ['Mg', 'Fe', 'Al', 'Mg', 'Fe', 'Mg', 'Fe', 'Al', 'Si', 'Al']$/;"	variable	line:9
+alphas	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_chl.py	/^alphas = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]$/;"	variable	line:10
+endmember_site_occupancies	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_chl.py	/^endmember_site_occupancies = np.array([[1, 0, 0, 1, 0, 1, 0, 0, 1, 0],$/;"	variable	line:12
+ss	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_chl.py	/^ss = AsymmetricMicrophiSolution(mbrs, sites, site_species,$/;"	variable	line:19
+w	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_chl.py	/^w = 4.$/;"	variable	line:24
+wo	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_chl.py	/^wo = 10.$/;"	variable	line:25
+p	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_chl.py	/^p = 0.7$/;"	variable	line:26
+wc	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_chl.py	/^wc = 14.  # wcrt in paper = w(AlAlMgSi,M1T2) = w(AlAlMgSi,M4T2)$/;"	variable	line:27
+wt	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_chl.py	/^wt = 0.   # wt in paper = w(AlSi,T2)$/;"	variable	line:28
+wr	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_chl.py	/^wr = -28  # wcro in paper = w(AlAlMgMg,M1M4)$/;"	variable	line:29
+x	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_chl.py	/^x = 0$/;"	variable	line:41
+_	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_chl.py	/^_ = 0$/;"	variable	line:44
+site_interactions	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_chl.py	/^site_interactions = [[x,   w,   wo,  _,   _,   _,   _,   _,   _,   _],  # Mg M1$/;"	variable	line:49
+p_mbr	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_chl.py	/^p_mbr = np.array([0.1, 0.2, 0.1, 0.2, 0.1, 0.3])$/;"	variable	line:66
+mbrs	/home/bob/projects/microphi/examples_asymmetric/example_change_endmember_basis_cpx.py	/^mbrs = ['di', 'fm', 'en', 'fs']$/;"	variable	line:10
+sites	/home/bob/projects/microphi/examples_asymmetric/example_change_endmember_basis_cpx.py	/^sites = ['M', 'M', 'M', 'M']$/;"	variable	line:13
+site_species	/home/bob/projects/microphi/examples_asymmetric/example_change_endmember_basis_cpx.py	/^site_species = ['di', 'hed', 'en', 'fs']$/;"	variable	line:14
+alphas	/home/bob/projects/microphi/examples_asymmetric/example_change_endmember_basis_cpx.py	/^alphas = [1.2, 1.2, 1, 1]$/;"	variable	line:15
+notes	/home/bob/projects/microphi/examples_asymmetric/example_change_endmember_basis_cpx.py	/^notes = ['Note that the endmember free energies do not '$/;"	variable	line:18
+endmember_site_occupancies	/home/bob/projects/microphi/examples_asymmetric/example_change_endmember_basis_cpx.py	/^endmember_site_occupancies = np.array([[1,  0,  0,  0],$/;"	variable	line:21
+ss	/home/bob/projects/microphi/examples_asymmetric/example_change_endmember_basis_cpx.py	/^ss = AsymmetricMicrophiSolution(mbrs, sites, site_species,$/;"	variable	line:26
+mbrs	/home/bob/projects/microphi/examples_asymmetric/example_change_endmember_basis_gt.py	/^mbrs = ['py', 'alm', 'gr', 'kho']$/;"	variable	line:9
+sites	/home/bob/projects/microphi/examples_asymmetric/example_change_endmember_basis_gt.py	/^sites = ['M', 'M', 'M', 'M']$/;"	variable	line:12
+site_species	/home/bob/projects/microphi/examples_asymmetric/example_change_endmember_basis_gt.py	/^site_species = ['py', 'alm', 'gr', 'andr']$/;"	variable	line:13
+alphas	/home/bob/projects/microphi/examples_asymmetric/example_change_endmember_basis_gt.py	/^alphas = [1, 1, 2.7, 2.7]$/;"	variable	line:14
+notes	/home/bob/projects/microphi/examples_asymmetric/example_change_endmember_basis_gt.py	/^notes = ['Note that the endmember free energies do not '$/;"	variable	line:17
+endmember_site_occupancies	/home/bob/projects/microphi/examples_asymmetric/example_change_endmember_basis_gt.py	/^endmember_site_occupancies = np.array([[1,  0,  0,  0],$/;"	variable	line:20
+ss	/home/bob/projects/microphi/examples_asymmetric/example_change_endmember_basis_gt.py	/^ss = AsymmetricMicrophiSolution(mbrs, sites, site_species,$/;"	variable	line:25
+ss	/home/bob/projects/microphi/examples_asymmetric/example_read_from_input_file.py	/^ss = microphi_from_file('input_files\/simple_od.dat')$/;"	variable	line:5
+p_mbr	/home/bob/projects/microphi/examples_asymmetric/example_read_from_input_file.py	/^p_mbr = np.array([0.1, 0.2, 0.7])$/;"	variable	line:10
+mbrs	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_cpx.py	/^mbrs = ['di', 'hed', 'cen', 'cfs']$/;"	variable	line:6
+sites	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_cpx.py	/^sites = ['M1', 'M1', 'M1', 'M2', 'M2']$/;"	variable	line:9
+site_species	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_cpx.py	/^site_species = ['Mg', 'Fe', 'Ca', 'Mg', 'Fe']$/;"	variable	line:10
+alphas	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_cpx.py	/^alphas = [1, 1, 1.4, 1, 1]$/;"	variable	line:11
+endmember_site_occupancies	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_cpx.py	/^endmember_site_occupancies = np.array([[0, 0, 1, 1, 0],$/;"	variable	line:13
+ss	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_cpx.py	/^ss = AsymmetricMicrophiSolution(mbrs, sites, site_species,$/;"	variable	line:18
+sites	/home/bob/projects/microphi/examples_asymmetric/example_two_site_order_disorder.py	/^sites = ['1', '1', '2', '2']$/;"	variable	line:10
+site_species	/home/bob/projects/microphi/examples_asymmetric/example_two_site_order_disorder.py	/^site_species = ['A', 'B', 'A', 'B']$/;"	variable	line:11
+mbrs	/home/bob/projects/microphi/examples_asymmetric/example_two_site_order_disorder.py	/^mbrs = ['AA', 'BB', 'AB']$/;"	variable	line:13
+endmember_site_occupancies	/home/bob/projects/microphi/examples_asymmetric/example_two_site_order_disorder.py	/^endmember_site_occupancies = np.array([[1., 0., 1., 0.],$/;"	variable	line:14
+alphas	/home/bob/projects/microphi/examples_asymmetric/example_two_site_order_disorder.py	/^alphas = np.array([1., 1., 1., 1.])$/;"	variable	line:19
+Wa	/home/bob/projects/microphi/examples_asymmetric/example_two_site_order_disorder.py	/^Wa = np.array([[0., 1., 0., 0.],$/;"	variable	line:22
+ss	/home/bob/projects/microphi/examples_asymmetric/example_two_site_order_disorder.py	/^ss = AsymmetricMicrophiSolution(mbrs, sites, site_species,$/;"	variable	line:27
+site_species_interactions	/home/bob/projects/microphi/examples_asymmetric/example_two_site_order_disorder.py	/^                                site_species_interactions=Wa)$/;"	variable	line:30
+Wa	/home/bob/projects/microphi/examples_asymmetric/example_two_site_order_disorder.py	/^Wa = np.array([[0., 1., 0., 0.],$/;"	variable	line:36
+ss	/home/bob/projects/microphi/examples_asymmetric/example_two_site_order_disorder.py	/^ss = AsymmetricMicrophiSolution(mbrs, sites, site_species,$/;"	variable	line:41
+site_species_interactions	/home/bob/projects/microphi/examples_asymmetric/example_two_site_order_disorder.py	/^                                site_species_interactions=Wa)$/;"	variable	line:44
+Wa	/home/bob/projects/microphi/examples_asymmetric/example_two_site_order_disorder.py	/^Wa = np.array([[1., 1., 0., 0.],$/;"	variable	line:50
+ss	/home/bob/projects/microphi/examples_asymmetric/example_two_site_order_disorder.py	/^ss = AsymmetricMicrophiSolution(mbrs, sites, site_species,$/;"	variable	line:55
+site_species_interactions	/home/bob/projects/microphi/examples_asymmetric/example_two_site_order_disorder.py	/^                                site_species_interactions=Wa)$/;"	variable	line:58
+mbrs	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_opx.py	/^mbrs = ['oen', 'ofs', 'mgts', 'odi', 'ofm']$/;"	variable	line:5
+sites	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_opx.py	/^sites = ['M1', 'M1', 'M1', 'M2', 'M2', 'M2', 'T1', 'T1']$/;"	variable	line:8
+site_species	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_opx.py	/^site_species = ['Mg', 'Fe', 'Ca', 'Mg', 'Fe', 'Al', 'Si', 'Al']$/;"	variable	line:9
+alphas	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_opx.py	/^alphas = [1, 1, 1, 1, 1, 1, 1, 1]$/;"	variable	line:10
+endmember_site_occupancies	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_opx.py	/^endmember_site_occupancies = np.array([[1, 0, 0, 1, 0, 0, 1, 0],$/;"	variable	line:12
+ss	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_opx.py	/^ss = AsymmetricMicrophiSolution(mbrs, sites, site_species,$/;"	variable	line:19
+site_species_interactions	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_opx.py	/^site_species_interactions = np.zeros((8, 8)).astype(int)$/;"	variable	line:25
+ss	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_opx.py	/^ss = AsymmetricMicrophiSolution(mbrs, sites, site_species,$/;"	variable	line:30
+site_species_interactions	/home/bob/projects/microphi/examples_asymmetric/example_micro_to_macro_opx.py	/^                                site_species_interactions=site_species_interactions)$/;"	variable	line:33

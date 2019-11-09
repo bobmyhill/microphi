@@ -1,8 +1,10 @@
+import sys
 import numpy as np
-from microphi import microphi_from_file
+sys.path.append('..')
+from microphi import asymmetric_microphi_from_file
 
 print('Symbolic output only:')
-ss = microphi_from_file('input_files/simple_od.dat')
+ss = asymmetric_microphi_from_file('input_files/simple_od.dat')
 print(ss)
 
 

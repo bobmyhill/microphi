@@ -1,4 +1,6 @@
+import sys
 import numpy as np
+sys.path.append('..')
 from microphi import AsymmetricMicrophiSolution
 
 # Endmember names

@@ -332,7 +332,7 @@ class AsymmetricMicrophiSolution(object):
         return True
 
 
-def microphi_from_file(filename):
+def asymmetric_microphi_from_file(filename):
     """
     Takes solution information from a file and creates an
     AsymmetricMicrophiSolution instance.
