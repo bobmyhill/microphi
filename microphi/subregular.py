@@ -130,7 +130,10 @@ class SubregularMicrophiSolution(object):
         """
         Computes the macroscopic properties of the solution
         """
-        M_pmbr = Matrix([self.endmember_proportions]).T
+        try:
+            M_pmbr = Matrix([self.endmember_proportions]).T
+        except:
+            M_pmbr = Matrix([p for p in self.endmember_proportions])
         self.site_species_proportions = (self.endmember_site_occupancies.T
                                          * M_pmbr)
         A = self.endmember_site_occupancies.T

@@ -171,7 +171,7 @@ class AsymmetricMicrophiSolution(object):
                                          * M_pmbr)
 
         A = self.endmember_site_occupancies.T
-        M_alpha = Matrix([self.site_species_alphas]).T
+        M_alpha = Matrix([a for a in self.site_species_alphas])
 
         self.endmember_alphas = simplify_matrix(np.array(A.T*M_alpha))
         invalphap = Matrix([1./a for a in self.endmember_alphas[:]])
