@@ -328,8 +328,12 @@ class AsymmetricMicrophiSolution(object):
                                          self.endmember_interactions,
                                          1.)
 
-        assert np.abs(pG + E_xs2 - E_xs1) < 1.e-6
-        return True
+        if np.abs(pG + E_xs2 - E_xs1) < 1.e-6:
+            return True
+        else:
+            raise Exception('Transformed solution does not produce '
+                            'the same excess energy as the input.'
+                            ' There must be a bug in the asymmetric formalism.')
 
 
 def asymmetric_microphi_from_file(filename):

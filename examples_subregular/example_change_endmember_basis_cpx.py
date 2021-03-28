@@ -4,7 +4,7 @@ sys.path.append('..')
 from microphi import SubregularMicrophiSolution
 
 # We can also use the Microphi formalism to convert from one
-# endmember set to another. Here's an example in the CMS clinopyroxene system
+# endmember set to another. Here's an example in the CFMS clinopyroxene system
 
 # New endmember names
 # fm has Fe on the Ca site
@@ -19,7 +19,7 @@ notes = ['Note that the endmember free energies do not '
          'include the component from mechanical mixing.',
          'However, this is easily calculated from the transformation matrix.']
 endmember_site_occupancies = np.array([[1,  0,  0,  0],
-                                       [1, -1,  0,  1],
+                                       [1, -1,  0,  1], # fm = di - hed + fs
                                        [0,  0,  1,  0],
                                        [0,  0,  0,  1]])
 

@@ -112,6 +112,39 @@ class SubregularMicrophiSolution(object):
         if site_species_interactions is not None:
             self._assign_interactions(site_species_interactions)
         else:
+            Wb = []
+            for i in range(self.n_site_species):
+                Wb.append([])
+                for j in range(self.n_site_species):
+
+                    ss_i, ss_j = (self.site_species[i], self.site_species[j])
+                    s_i, s_j = (self.sites[i], self.sites[j])
+
+                    if i >= j:  # upper triangular interactions
+                        Wb[-1].append(0)
+                    elif s_i == s_j:  # same site exchange
+                        Wb[-1].append('w({0}{1},{2})'.format(ss_i, ss_j, s_i))
+                    else:  # cross-site exchange
+
+                        i0 = self.sites.index(s_i)
+                        j0 = self.sites.index(s_j)
+
+                        if (i0 == i or j0 == j):  # 1st row or column
+                            Wb[-1].append(0)
+                        else:
+                            ss_i0, ss_j0 = (self.site_species[i0],
+                                            self.site_species[j0])
+                            string = '-w({0}{2}{1}{3},{4}{5})'.format(ss_i,
+                                                                      ss_i0,
+                                                                      ss_j,
+                                                                      ss_j0,
+                                                                      s_i,
+                                                                      s_j)
+                            Wb[-1].append(string)
+
+            self.site_binary_interactions = Matrix(Wb)
+            self.site_ternary_interactions = Matrix(Wt)
+
             raise NotImplementedError('Site species interactions (binary and ternary interactions)'
                                       'must currently be supplied as 2D/3D lists or numpy arrays.')
 
@@ -184,9 +217,22 @@ class SubregularMicrophiSolution(object):
                                               + np.einsum('ijk, jk -> ij', Wn,
                                                           np.identity(self.n_mbrs))).round(decimals=12)
 
-        # Removal unitary component from 3D representation
-        Wn -= np.einsum('i, jk -> ijk', np.ones(self.n_mbrs),
-                        self.endmember_binary_interactions/2.)
+        # Wb is the 3D matrix corresponding to the terms in the binary matrix,
+        # such that the two following print statements produce the same answer
+        # for a given array of endmember proportions
+        #print(np.einsum('ij, i, j', new_binary_matrix, p, p*p))
+        #print(np.einsum('ijk, i, j, k', Wb, p, p, p))
+        Wb = (np.einsum('ijk, ij->ijk', Wn, np.identity(self.n_mbrs))
+              + np.einsum('ijk, jk->ijk', Wn, np.identity(self.n_mbrs))
+              + np.einsum('ijk, ik->ijk', Wn, np.identity(self.n_mbrs)))
+
+        # Remove binary component from 3D representation
+        # The extra terms are needed because the binary term in the formulation
+        # of a subregular solution model given by
+        # Helffrich and Wood includes ternary components (the sum_k X_k part)..
+        Wn -= Wb + (np.einsum('ij, k', self.endmember_binary_interactions, np.ones(self.n_mbrs))
+                    - np.einsum('ij, ik->ijk', self.endmember_binary_interactions, np.identity(self.n_mbrs))
+                    - np.einsum('ij, jk->ijk', self.endmember_binary_interactions, np.identity(self.n_mbrs)))/2.
 
         # Find the 3D components Wijk by adding the elements at
         # the six equivalent positions in the matrix
@@ -247,29 +293,44 @@ class SubregularMicrophiSolution(object):
                       for j in range(self.n_mbrs)]
                      for i in range(self.n_mbrs)])
 
-        str = 'Site occupancies\n'
+        string = 'Site occupancies\n'
         for i in range(self.n_site_species):
-            str += '{0}({1}) = {2}\n'.format(self.site_species[i],
+            string += '{0}({1}) = {2}\n'.format(self.site_species[i],
                                              self.sites[i],
                                              self.site_species_proportions[i])
 
-        str += '\nBinary interactions:\n'
+        string += '\nEndmember free energies:\n'
+        for i in range(len(vE)):
+            string += '{0} = {1}\n'.format(vE[i], self.endmember_energies[i])
+
+
+        string += '\nBinary interactions:\n'
         for i in range(self.n_mbrs):
             for j in range(self.n_mbrs):
                 if (j > i):
-                    str += '{0} = {1}\n'.format(Wb[i, j],
+                    string += '{0} = {1}\n'.format(Wb[i, j],
                                                 self.endmember_binary_interactions[i, j])
-                    str += '{0} = {1}\n'.format(Wb[j, i],
+                    string += '{0} = {1}\n'.format(Wb[j, i],
                                                 self.endmember_binary_interactions[j, i])
 
-        str += '\nEndmember free energies:\n'
-        for i in range(len(vE)):
-            str += '{0} = {1}\n'.format(vE[i], self.endmember_energies[i])
+        string2 = '\nTernary interactions:\n'
+        ternary_active = False
+        for i in range(self.n_mbrs):
+            for j in range(i+1,self.n_mbrs):
+                for k in range(j+1,self.n_mbrs):
+                    if np.abs(self.endmember_ternary_interactions[i,j,k]) > 1.e-6:
+                        ternary_active=True
+                        string2 += 'W({0},{1},{2}) = {3} \n'.format(self.mbrs[i], self.mbrs[j], self.mbrs[k],
+                                                                    self.endmember_ternary_interactions[i,j,k])
+        if ternary_active:
+            string += string2
+        else:
+            string += '\n[no non-zero ternary interactions]\n'
 
         for note in self.notes:
-            str += note + '\n'
+            string += note + '\n'
 
-        return str
+        return string
 
     def _interaction_energy(self, proportions,
                             binary_interactions, ternary_interactions):
@@ -307,5 +368,9 @@ class SubregularMicrophiSolution(object):
                                          self.endmember_binary_interactions,
                                          self.endmember_ternary_interactions)
 
-        assert np.abs(pG + E_xs2 - E_xs1) < 1.e-6
-        return True
+        if np.abs(pG + E_xs2 - E_xs1) < 1.e-6:
+            return True
+        else:
+            raise Exception('Transformed solution does not produce '
+                            'the same excess energy as the input.'
+                            ' There must be a bug in the subregular formalism.')
